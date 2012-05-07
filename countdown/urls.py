@@ -6,7 +6,9 @@ from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'countdown.views.home', name='home'),
+     url(r'^$', 'triggers.views.home', name='home'),
+     url(r'^create_user', 'triggers.views.create_user', name='create_user'),
+     url(r'^login', 'triggers.views.login', name='login'),
     # url(r'^countdown/', include('countdown.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

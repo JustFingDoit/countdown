@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.query import QuerySet
 from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 
@@ -9,7 +10,7 @@ class TriggerManager(models.Manager):
         return super(TriggerManager, self).get_query_set().filter(next_checkin__lte = datetime.now())
 
 class Trigger(models.Model):
-    INTERVAL_CHOICES = ('minutes', 'hours', 'days')
+    INTERVAL_CHOICES = (('minutes', 60), ('hours', 3600), ('days', 86400))
 
     triggered = TriggerManager()
 

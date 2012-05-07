@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <span id='message'>This is a login page</span>
+    <form action="/login" method="post">{% csrf_token %}
+        <label for="username">User name:</label> <input type="text" name="username" value=""/><br/>
+        <label for="password">Password:</label> <input type="password" name="password"/><br/>
+        <input type="submit" name="login_button" value="Log In"/>
+      </form>
+<br />
+<br />
+    <span id='message'>Register here</span>
+    <form action="/create_user" method="post">{% csrf_token %}
+        <label for="username">User name:</label> <input type="text" name="username" value=""/><br/>
+        <label for="email">Email:</label> <input type="text" name="email" value=""/><br/>
+        <label for="password">Password:</label> <input type="password" name="password"/><br/>
+        <input type="submit" name="create_user" value="Register"/>
+      </form>
+      
+
+</body>
+</html>
