@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 
-from triggers.models import Trigger, TriggerManager
+#from triggers.models import Trigger, TriggerManager, Message
 
 def home(request):
     #Render a page where user can signup or login
@@ -26,7 +26,7 @@ def create_user(request):
     import datetime
     #create trigger
     next_checkin = datetime.datetime.now() + datetime.timedelta(days=30)
-    user.triggers.create(description='testtrigger', frequency=60, interval='minutes', next_checkin=next_checkin)
+    user.triggers.create(description='testtrigger', frequency=30, interval='days', next_checkin=next_checkin)
     return HttpResponse("User created")
 
 def login(request):
@@ -34,11 +34,20 @@ def login(request):
         user = authenticate(username=request.POST['username'],
                  password=request.POST['password'])
         if user is not None:
-            #trigger = user.triggers.get(owner_id=user.id)
-            trigger = user.triggers.get(id=1)
-            if len(trigger) > 0:
-                trigger[0].checkin()
-            else:
-                return HttpResponse("Failure! ddddd")            
+            request.session['logged_in'] = user.id
+            trigger = user.triggers.get(owner_id=user.id)
+            trigger.checkin()
+            trigger.save()
             return HttpResponse("Checked in!")
-    return HttpResponse("Failure!")            
+    return HttpResponse("Failure!")
+    
+def set_message(request):
+    user = User.objects.get(id=request.session['logged_in'])
+    if request.method == 'POST' and user is not None:
+        user.message.create(to=request.POST['to_address'], subject=request.POST['subject'], 
+                message=request.POST['message'])
+        c = {request.POST}
+        c.update(csrf(request))
+        return render_to_response('', c)
+    return HttpResponse("Error!")
+    

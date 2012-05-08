@@ -9,6 +9,7 @@ urlpatterns = patterns('',
      url(r'^$', 'triggers.views.home', name='home'),
      url(r'^create_user', 'triggers.views.create_user', name='create_user'),
      url(r'^login', 'triggers.views.login', name='login'),
+     url(r'^set_message', 'triggers.views.set_message', name='set_message'),
     # url(r'^countdown/', include('countdown.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
