@@ -6,13 +6,13 @@ from datetime import datetime
 # Create your models here.
 
 class TriggerManager(models.Manager):
-    def get_query_set(self):
-        return super(TriggerManager, self).get_query_set().filter(next_checkin__lte = datetime.now())
+    def triggered(self):
+        return self.get_query_set().filter(next_checkin__lte = datetime.now())
 
 class Trigger(models.Model):
     INTERVAL_CHOICES = (('minutes', 60), ('hours', 3600), ('days', 86400))
 
-    triggered = TriggerManager()
+    objects = TriggerManager()
 
     description = models.TextField(max_length=300, blank=False, null=False)
     frequency = models.PositiveIntegerField(max_length=5)
