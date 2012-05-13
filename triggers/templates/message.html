@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Set Message</title>
+</head>
+<body>
+    {% if next %}
+    <span id='success'>You've checked in! Your next checkin date is {{ next }}</span><br />
+    {% endif %}
+    <span id='message'>Create your message. If the trigger hits, this will be sent out.</span>
+    <form action="/set_message" method="post">{% csrf_token %}
+        <label for="to">Send email to. For multiple emails separate by commas.</label> <input type="text" name="to_address" value=""/><br/>
+        <label for="subject">Email Subject:</label> <input type="text" name="subject" value=""/><br/>
+        <label for="to">Message:</label> <textarea name="message"></textarea><br/>
+        <input type="submit" name="set_message" value="Create Message"/>
+      </form>
+<br />
+      
+
+</body>
+</html>

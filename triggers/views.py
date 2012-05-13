@@ -35,19 +35,23 @@ def login(request):
                  password=request.POST['password'])
         if user is not None:
             request.session['logged_in'] = user.id
-            trigger = user.triggers.get(owner_id=user.id)
+            trigger = user.triggers.get(owner=user)
             trigger.checkin()
             trigger.save()
-            return HttpResponse("Checked in!")
+            c = {'next': trigger.next_checkin}
+            c.update(csrf(request))
+            return render_to_response('message.html', c)
+            #return HttpResponse("Checked in! Next check in date must be before " + 
+            #       str(trigger.next_checkin))
     return HttpResponse("Failure!")
     
 def set_message(request):
     user = User.objects.get(id=request.session['logged_in'])
     if request.method == 'POST' and user is not None:
-        user.message.create(to=request.POST['to_address'], subject=request.POST['subject'], 
-                message=request.POST['message'])
-        c = {request.POST}
+        user.message.create(to=request.POST['to_address'], 
+                subject=request.POST['subject'], message=request.POST['message'])
+        c = {'message': request.POST}
         c.update(csrf(request))
-        return render_to_response('', c)
+        return render_to_response('message.html', c)
     return HttpResponse("Error!")
     
